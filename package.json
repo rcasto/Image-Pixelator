@@ -1,0 +1,24 @@
+{
+  "name": "image-pixelator",
+  "version": "1.0.0",
+  "description": "Takes a 2d image and converts it into a 3d pixel mesh visually",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rcasto/Image-Pixelator.git"
+  },
+  "author": "Richie Casto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rcasto/Image-Pixelator/issues"
+  },
+  "homepage": "https://github.com/rcasto/Image-Pixelator#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "three": "^0.74.0"
+  }
+}

@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    overflow:hidden;
+    cursor: default; /*Disables text cursor*/
+}
+div {
+    background: #000;
+    display: block;
+}
