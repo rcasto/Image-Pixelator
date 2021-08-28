@@ -115,7 +115,7 @@ Pixelator.game = (function () {
         far = 4000,
         //Used to display program statistics
         stats,
-        SPREAD = 7,
+        SPREAD = 1,
         CANVAS_WIDTH = 600,
         CANVAS_HEIGHT = 600,
         MAX_RADIUS = 20;
@@ -209,7 +209,7 @@ Pixelator.game = (function () {
     }
 
     function makeParticles(image) {
-        var vector, material, x, y, p, r, g, b, color,
+        var vX, vY, vZ, material, x, y, p, r, g, b, color,
             //Holds the particles and colors
             geometry = new THREE.BufferGeometry(),
             width = CANVAS_WIDTH * 4, //width of canvas as pixel array
@@ -250,21 +250,16 @@ Pixelator.game = (function () {
 
                     //Initialize particle variables
                     color = new THREE.Color().setRGB(r, g, b);
-                    vector = new THREE.Vector3();
 
                     //Set Particle Position
-                    vector.x = (x / 4) - halfW; // (x / 4) = distance from left of image
-                    vector.y = y - halfH;
-                    //vector.z = 0;	//relative to particle system
-                    vector.z = ((r + g + b) / 3) * DIFF_DEPTH;
+                    vX = (x / 4) - halfW; // (x / 4) = distance from left of image
+                    vY = y - halfH;
+                    //vZ = 0;	//relative to particle system
+                    vZ = ((r + g + b) / 3) * DIFF_DEPTH;
 
-                    //Extra particle properties, mainly for physics
-                    vector.radius = MAX_RADIUS * Math.random();
-                    vector.ratio = 1000000;
-
-                    positions.push(vector.x);
-                    positions.push(vector.y);
-                    positions.push(vector.z);
+                    positions.push(vX);
+                    positions.push(vY);
+                    positions.push(vZ);
 
                     colors.push(color.r, color.g, color.b);
 
@@ -315,7 +310,7 @@ Pixelator.game = (function () {
 
         //Check for WebGL Compatability
         if (!WEBGL.isWebGLAvailable()) {
-            // Detector.addGetWebGLMessage();
+            document.body.appendChild(WEBGL.getWebGLErrorMessage());
             return;
         }
 
