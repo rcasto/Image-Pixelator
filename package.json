@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server -p 3000 ./docs",
-    "build": "webpack --config webpack.config.js",
-    "dev": "npm-run-all clean --parallel dev:build start",
-    "dev:build": "npm run build -- --watch --mode development",
-    "clean": "rimraf docs"
+    "build": "npm run build:release -- --watch --mode development --output-path dist",
+    "build:release": "webpack --config webpack.config.js",
+    "dev": "npm-run-all clean --parallel build start",
+    "clean": "rimraf dist"
   },
   "repository": {
     "type": "git",
