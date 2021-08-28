@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server -p 3000 ./docs",
+    "start:dev": "http-server -p 3000 ./dist",
     "build": "npm run build:release -- --watch --mode development --output-path dist",
     "build:release": "webpack --config webpack.config.js",
-    "dev": "npm-run-all clean --parallel build start",
+    "dev": "npm-run-all clean --parallel build start:dev",
     "clean": "rimraf dist"
   },
   "repository": {
