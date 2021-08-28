@@ -271,7 +271,7 @@ Pixelator.game = (function () {
         // Ripped this code from:
         // https://github.com/mrdoob/three.js/blob/e62b253081438c030d6af1ee3c3346a89124f277/examples/webgl_buffergeometry_custom_attributes_particles.html#L115
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));etUsage(THREE.DynamicDrawUsage));
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
         //Create Particle System Material
         material = new THREE.PointsMaterial({
