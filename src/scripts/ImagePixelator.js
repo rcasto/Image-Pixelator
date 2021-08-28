@@ -222,7 +222,6 @@ Pixelator.game = (function () {
             numParticles = 0;
         const positions = [];
         const colors = [];
-        const sizes = [];
 
         //Delete particle system if already defined
         if (particles) {
@@ -263,8 +262,6 @@ Pixelator.game = (function () {
 
                     colors.push(color.r, color.g, color.b);
 
-                    sizes.push(MAX_RADIUS * Math.random());
-
                     //Particle added
                     numParticles += 1;
                 }
@@ -274,8 +271,7 @@ Pixelator.game = (function () {
         // Ripped this code from:
         // https://github.com/mrdoob/three.js/blob/e62b253081438c030d6af1ee3c3346a89124f277/examples/webgl_buffergeometry_custom_attributes_particles.html#L115
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-        geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1).setUsage(THREE.DynamicDrawUsage));
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));etUsage(THREE.DynamicDrawUsage));
 
         //Create Particle System Material
         material = new THREE.PointsMaterial({
