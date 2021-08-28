@@ -10,9 +10,9 @@ export var Pixelator = {};
 
 //Contains most of DOM manipulation for program
 Pixelator.dom = (function () {
-	"use strict";
+    "use strict";
 
-	function addAuthorDiv(author, container) {
+    function addAuthorDiv(author, container) {
         var authorDiv, authorText;
 
         //Make sure parameter supports appropriate methods
@@ -36,7 +36,7 @@ Pixelator.dom = (function () {
         authorDiv.style.width = "8em";
         authorDiv.style.opacity = "0.9";
         authorDiv.style.zIndex = "10001";
-		authorDiv.style.right = "0px"; //position in bottom right
+        authorDiv.style.right = "0px"; //position in bottom right
         authorDiv.style.bottom = "0px";
         authorDiv.style.color = "#228b22"; //forest green
         authorDiv.style.textAlign = "center";
@@ -46,8 +46,8 @@ Pixelator.dom = (function () {
         container.appendChild(authorDiv);
     }
 
-	function addParticleDiv(container) {
-		var particleDiv, particleText;
+    function addParticleDiv(container) {
+        var particleDiv, particleText;
 
         //Make sure parameter supports appropriate methods
         if (!container.appendChild) {
@@ -63,17 +63,17 @@ Pixelator.dom = (function () {
 
         //Create components
         particleDiv = document.createElement("div");
-		particleText = document.createTextNode("Particle Count: 0");
+        particleText = document.createTextNode("Particle Count: 0");
 
-		//Give div an id to be able to be updated later
-		particleDiv.setAttribute("id", "particleCount");
+        //Give div an id to be able to be updated later
+        particleDiv.setAttribute("id", "particleCount");
 
         //Style the div
         particleDiv.style.position = "absolute";
         particleDiv.style.width = "8em";
         particleDiv.style.opacity = "0.9";
         particleDiv.style.zIndex = "10001";
-		particleDiv.style.right = "0px"; //position in top right
+        particleDiv.style.right = "0px"; //position in top right
         particleDiv.style.top = "0px";
         particleDiv.style.color = "#228b22"; //forest green
         particleDiv.style.textAlign = "center";
@@ -81,27 +81,27 @@ Pixelator.dom = (function () {
         //Add to container
         particleDiv.appendChild(particleText);
         container.appendChild(particleDiv);
-	}
+    }
 
     return {
         addAuthorDiv: addAuthorDiv,
-		addParticleDiv: addParticleDiv
+        addParticleDiv: addParticleDiv
     };
 }());
 
 //Contains all game logic
 Pixelator.game = (function () {
-	"use strict";
+    "use strict";
     // Game Variables
     var camera,
         scene,
         renderer,
-		//Texture
-		particleTexture,
+        //Texture
+        particleTexture,
         // Pariticle System
         particles,
-		//Drop Image
-		dropImage,
+        //Drop Image
+        dropImage,
         //Particle System Limits
         DEPTH = -500,
         DIFF_DEPTH = -150,
@@ -115,10 +115,10 @@ Pixelator.game = (function () {
         far = 4000,
         //Used to display program statistics
         stats,
-		SPREAD = 7,
-		CANVAS_WIDTH = 600,
-		CANVAS_HEIGHT = 600,
-		MAX_RADIUS = 20;
+        SPREAD = 7,
+        CANVAS_WIDTH = 600,
+        CANVAS_HEIGHT = 600,
+        MAX_RADIUS = 20;
     var loader = new THREE.TextureLoader();
 
     //checks window size and adjusts canvas size appropriately
@@ -134,72 +134,72 @@ Pixelator.game = (function () {
         camera.updateProjectionMatrix();
     }
 
-	//Adds drop image here, image to page
-	function dropScreen() {
+    //Adds drop image here, image to page
+    function dropScreen() {
         loader.load(
             // resource URL
             DropImage,
             // 'images/dropImage.png',
             // Function when resource is loaded
-            function ( texture ) {
+            function (texture) {
                 var material = new THREE.MeshBasicMaterial({
                     map: texture
                 }),
-                width = texture.image.width,
-                height = texture.image.height,
-                geometry = new THREE.CubeGeometry(width, height, 0); //2d surface for picture
-               
+                    width = texture.image.width,
+                    height = texture.image.height,
+                    geometry = new THREE.BoxGeometry(width, height, 0); //2d surface for picture
+
                 dropImage = new THREE.Mesh(geometry, material);
                 dropImage.position.z = DEPTH;
 
                 scene.add(dropImage);
             },
             // Function called when download progresses
-            function ( xhr ) {
-                console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             },
             // Function called when download errors
-            function ( xhr ) {
-                console.log( 'An error happened' );
+            function (xhr) {
+                console.log('An error happened');
             });
-	}
+    }
 
-	//Updates the particles
-	function updateParticles(time) {
-		var radius, ratio, particleList = particles.geometry.vertices,
-			numParticles = particleList.length, i, p;
+    //Updates the particles
+    function updateParticles(time) {
+        // var radius, ratio, particleList = particles.geometry.vertices,
+        //     numParticles = particleList.length, i, p;
 
-		//rotate entire particle system
-		particles.rotation.y += 0.01;
+        //rotate entire particle system
+        particles.rotation.y += 0.01;
 
-		//circular motion
-		//radius * Math.sin(time / ratio)
-		//radius * Math.cos(time / ratio)
-		//add radius and ratio properties to particles
-		/*
-		for (i = 0; i < numParticles; i += 1) {
-			p = particleList[i];
+        //circular motion
+        //radius * Math.sin(time / ratio)
+        //radius * Math.cos(time / ratio)
+        //add radius and ratio properties to particles
+        /*
+        for (i = 0; i < numParticles; i += 1) {
+            p = particleList[i];
 
-			//Get particle motion properties
-			radius = p.radius;
-			ratio = p.ratio;
+            //Get particle motion properties
+            radius = p.radius;
+            ratio = p.ratio;
 
-			//Update motion
-			p.x += radius * Math.sin(time / ratio);
-			p.y += radius * Math.cos(time / ratio);
-		}
-		*/
-	}
+            //Update motion
+            p.x += radius * Math.sin(time / ratio);
+            p.y += radius * Math.cos(time / ratio);
+        }
+        */
+    }
 
     // the animation loop
     function animate(canvas) {
         //Request next animation
-		window.requestAnimationFrame(animate);
+        window.requestAnimationFrame(animate);
 
-		//update particle system if it exists
-		if (particles) {
-			updateParticles(new Date().getTime());
-		}
+        //update particle system if it exists
+        if (particles) {
+            updateParticles(new Date().getTime());
+        }
 
         // and render the scene from the perspective of the camera
         renderer.render(scene, camera);
@@ -208,66 +208,79 @@ Pixelator.game = (function () {
         stats.update();
     }
 
-	function makeParticles(image) {
+    function makeParticles(image) {
         var vector, material, x, y, p, r, g, b, color,
-			//Holds the particles and colors
-			geometry = new THREE.Geometry(),
-			width = CANVAS_WIDTH * 4, //width of canvas as pixel array
-			pixels = image.pixels,
-			spread = SPREAD * 4, //spread in terms of pixel array, 4 entries per pixel
-			halfW = CANVAS_WIDTH / 2,
-			halfH = CANVAS_HEIGHT / 2,
-			//Variables to update particle count div
-			particleCount = document.getElementById("particleCount"),
-			numParticles = 0;
+            //Holds the particles and colors
+            geometry = new THREE.BufferGeometry(),
+            width = CANVAS_WIDTH * 4, //width of canvas as pixel array
+            pixels = image.pixels,
+            spread = SPREAD * 4, //spread in terms of pixel array, 4 entries per pixel
+            halfW = CANVAS_WIDTH / 2,
+            halfH = CANVAS_HEIGHT / 2,
+            //Variables to update particle count div
+            particleCount = document.getElementById("particleCount"),
+            numParticles = 0;
+        const positions = [];
+        const colors = [];
+        const sizes = [];
 
-		//Delete particle system if already defined
-		if (particles) {
-			scene.remove(particles);
-			particles = null; //reset
-		} else { //no particle system, remove drop image
-			scene.remove(dropImage);
-			dropImage = null;
-		}
+        //Delete particle system if already defined
+        if (particles) {
+            scene.remove(particles);
+            particles = null; //reset
+        } else { //no particle system, remove drop image
+            scene.remove(dropImage);
+            dropImage = null;
+        }
 
-		//SPREAD skips rows, spread skips columns
-		//Go through image pixels, row by row, starting from top
-	    for (y = CANVAS_HEIGHT; y >= 0; y -= SPREAD) {
-			for (x = 0; x < width; x += spread) {
-				//Get start of particle entries - (r, g, b, a)
-				p = (CANVAS_HEIGHT - y) * width + x;
+        //SPREAD skips rows, spread skips columns
+        //Go through image pixels, row by row, starting from top
+        for (y = CANVAS_HEIGHT; y >= 0; y -= SPREAD) {
+            for (x = 0; x < width; x += spread) {
+                //Get start of particle entries - (r, g, b, a)
+                p = (CANVAS_HEIGHT - y) * width + x;
 
-				// grab the actual data from the
-				// pixel, ignoring any transparent ones
-				if (pixels[p + 3] > 0) {
-					//RGB values for THREE.js must be between 0 and 1
-					r = pixels[p] / 255;
-					g = pixels[p + 1] / 255;
-					b = pixels[p + 2] / 255;
+                // grab the actual data from the
+                // pixel, ignoring any transparent ones
+                if (pixels[p + 3] > 0) {
+                    //RGB values for THREE.js must be between 0 and 1
+                    r = pixels[p] / 255;
+                    g = pixels[p + 1] / 255;
+                    b = pixels[p + 2] / 255;
 
-					//Initialize particle variables
-					color = new THREE.Color().setRGB(r, g, b);
-					vector = new THREE.Vector3();
+                    //Initialize particle variables
+                    color = new THREE.Color().setRGB(r, g, b);
+                    vector = new THREE.Vector3();
 
-					//Set Particle Position
-					vector.x = (x / 4) - halfW; // (x / 4) = distance from left of image
-					vector.y = y - halfH;
-					//vector.z = 0;	//relative to particle system
-					vector.z = ((r + g + b) / 3) * DIFF_DEPTH;
+                    //Set Particle Position
+                    vector.x = (x / 4) - halfW; // (x / 4) = distance from left of image
+                    vector.y = y - halfH;
+                    //vector.z = 0;	//relative to particle system
+                    vector.z = ((r + g + b) / 3) * DIFF_DEPTH;
 
-					//Extra particle properties, mainly for physics
-					vector.radius = MAX_RADIUS * Math.random();
-					vector.ratio = 1000000;
+                    //Extra particle properties, mainly for physics
+                    vector.radius = MAX_RADIUS * Math.random();
+                    vector.ratio = 1000000;
 
-					// push on the particle
-					geometry.vertices.push(vector);
-					geometry.colors.push(color);
+                    positions.push(vector.x);
+                    positions.push(vector.y);
+                    positions.push(vector.z);
 
-					//Particle added
-					numParticles += 1;
-				}
-			}
-	    }
+                    colors.push(color.r, color.g, color.b);
+
+                    sizes.push(MAX_RADIUS * Math.random());
+
+                    //Particle added
+                    numParticles += 1;
+                }
+            }
+        }
+
+        // Ripped this code from:
+        // https://github.com/mrdoob/three.js/blob/e62b253081438c030d6af1ee3c3346a89124f277/examples/webgl_buffergeometry_custom_attributes_particles.html#L115
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1).setUsage(THREE.DynamicDrawUsage));
 
         //Create Particle System Material
         material = new THREE.PointsMaterial({
@@ -276,30 +289,30 @@ Pixelator.game = (function () {
             vertexColors: true
         });
 
-		//Create Particle System
+        //Create Particle System
         particles = new THREE.Points(geometry, material);
 
-		//Position the system
-		particles.position.x = 0;
-		particles.position.y = 0;
-		particles.position.z = DEPTH;
+        //Position the system
+        particles.position.x = 0;
+        particles.position.y = 0;
+        particles.position.z = DEPTH;
 
         //add Particle System to the scene
         scene.add(particles);
 
-		//Update Particle Count Div
-		particleCount.textContent = "Particle Count: " + numParticles;
+        //Update Particle Count Div
+        particleCount.textContent = "Particle Count: " + numParticles;
     }
 
     function init() {
         var container, canvas;
 
         //Check browser for DOM compatability
-		if (!document.createElement || !document.getElementById) {
+        if (!document.createElement || !document.getElementById) {
             console.log("init - browser does not support DOM methods");
             return;
         }
-        
+
         //Check for WebGL Compatability
         if (!WEBGL.isWebGLAvailable()) {
             // Detector.addGetWebGLMessage();
@@ -319,7 +332,7 @@ Pixelator.game = (function () {
         // camera needs to go in the scene 
         scene.add(camera);
 
-		//Load particle texture
+        //Load particle texture
         loader.load(
             // resource URL
             BallImage,
@@ -333,33 +346,33 @@ Pixelator.game = (function () {
             },
             // Function called when download progresses
             function (xhr) {
-                console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             },
             // Function called when download errors
             function (xhr) {
-                console.log( 'An error happened' );
+                console.log('An error happened');
             });
 
         // add listeners
-		window.addEventListener("resize", adjustSize, false);
+        window.addEventListener("resize", adjustSize, false);
 
-		//add drop file images
-		dropScreen();
+        //add drop file images
+        dropScreen();
 
         /* Stats */
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
-		stats.domElement.style.bottom = '0px';
-		stats.domElement.style.left = '0px';
-		container.appendChild(stats.domElement);
+        stats.domElement.style.bottom = '0px';
+        stats.domElement.style.left = '0px';
+        container.appendChild(stats.domElement);
 
         //add Author Div
-		Pixelator.dom.addAuthorDiv("Richie Casto", container);
+        Pixelator.dom.addAuthorDiv("Richie Casto", container);
 
-		//add Particle Count Div
-		Pixelator.dom.addParticleDiv(container);
+        //add Particle Count Div
+        Pixelator.dom.addParticleDiv(container);
 
-		//Create WebGLRenderer
+        //Create WebGLRenderer
         renderer = new THREE.WebGLRenderer({
             clearAlpha: 1
         });
@@ -370,7 +383,7 @@ Pixelator.game = (function () {
         container.appendChild(canvas);
 
         //Start the animation loop
-		window.requestAnimationFrame(animate);
+        window.requestAnimationFrame(animate);
     }
 
     return {
