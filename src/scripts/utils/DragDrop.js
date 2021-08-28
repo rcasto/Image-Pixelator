@@ -1,6 +1,6 @@
 //Module does require Modernizr, it is not preferred lines can be commented out 
 
-var DragDrop = (function () {
+export var DragDrop = (function () {
 	"use strict";
 
 	//Object holding all varibles

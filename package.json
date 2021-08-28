@@ -4,7 +4,8 @@
   "description": "Takes a 2d image and converts it into a 3d pixel mesh visually",
   "main": "index.js",
   "scripts": {
-    "start": "http-server -p 3000 ./public/"
+    "start": "http-server -p 3000 ./",
+    "build": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,13 @@
   },
   "homepage": "https://github.com/rcasto/Image-Pixelator#readme",
   "dependencies": {
-    "three": "0.74.0"
+    "three": "0.132.2"
   },
   "devDependencies": {
-    "http-server": "13.0.1"
+    "css-loader": "^6.2.0",
+    "http-server": "13.0.1",
+    "style-loader": "^3.2.1",
+    "webpack": "5.51.1",
+    "webpack-cli": "4.8.0"
   }
 }

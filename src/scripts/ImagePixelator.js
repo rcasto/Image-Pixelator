@@ -1,4 +1,12 @@
-var Pixelator = {};
+import * as THREE from 'three';
+import Stats from 'three/examples/jsm/libs/stats.module';
+import { WEBGL } from 'three/examples/jsm/WebGL';
+import { DragDrop } from './utils/DragDrop';
+
+import BallImage from '../images/ball.png';
+import DropImage from '../images/dropImage.png';
+
+export var Pixelator = {};
 
 //Contains most of DOM manipulation for program
 Pixelator.dom = (function () {
@@ -130,7 +138,8 @@ Pixelator.game = (function () {
 	function dropScreen() {
         loader.load(
             // resource URL
-            'images/dropImage.png',
+            DropImage,
+            // 'images/dropImage.png',
             // Function when resource is loaded
             function ( texture ) {
                 var material = new THREE.MeshBasicMaterial({
@@ -185,7 +194,7 @@ Pixelator.game = (function () {
     // the animation loop
     function animate(canvas) {
         //Request next animation
-		window.requestAnimFrame(animate);
+		window.requestAnimationFrame(animate);
 
 		//update particle system if it exists
 		if (particles) {
@@ -292,8 +301,8 @@ Pixelator.game = (function () {
         }
         
         //Check for WebGL Compatability
-        if (!Detector.webgl) {
-            Detector.addGetWebGLMessage();
+        if (!WEBGL.isWebGLAvailable()) {
+            // Detector.addGetWebGLMessage();
             return;
         }
 
@@ -313,7 +322,8 @@ Pixelator.game = (function () {
 		//Load particle texture
         loader.load(
             // resource URL
-            'images/ball.png',
+            BallImage,
+            // 'images/ball.png',
             // Function when resource is loaded
             function (texture) {
                 // do something with the texture
@@ -360,7 +370,7 @@ Pixelator.game = (function () {
         container.appendChild(canvas);
 
         //Start the animation loop
-		window.requestAnimFrame(animate);
+		window.requestAnimationFrame(animate);
     }
 
     return {
