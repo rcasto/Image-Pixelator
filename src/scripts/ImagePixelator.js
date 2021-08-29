@@ -134,7 +134,7 @@ Pixelator.game = (function () {
     }
 
     //Adds drop image here, image to page
-    function dropScreen() {
+    function dropScreen(container) {
         loader.load(
             // resource URL
             DropImage,
@@ -160,6 +160,14 @@ Pixelator.game = (function () {
             function (xhr) {
                 console.log('An error happened');
             });
+
+        const fileInput = document.createElement('input');
+        fileInput.id = 'image-file-input';
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.style.opacity = 0;
+
+        container.appendChild(fileInput);
     }
 
     //Updates the particles
@@ -345,7 +353,7 @@ Pixelator.game = (function () {
         window.addEventListener("resize", adjustSize, false);
 
         //add drop file images
-        dropScreen();
+        dropScreen(container);
 
         /* Stats */
         stats = new Stats();

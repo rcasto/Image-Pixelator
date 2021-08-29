@@ -1,5 +1,3 @@
-//Module does require Modernizr, it is not preferred lines can be commented out 
-
 export var DragDrop = (function () {
 	"use strict";
 
@@ -87,8 +85,12 @@ export var DragDrop = (function () {
 		//grab files from drop
 		files = evt.dataTransfer.files;
 		//Handle dropped files
+		handleFiles(files);
+	}
+
+	function handleFiles(files) {
 		if (files.length > 0) {
-			file = files[0]; //grab first file, only one concerned about
+			const file = files[0]; //grab first file, only one concerned about
 			//Extract Pixels if image
 			if (isImage(file)) {
 				readImage(file);
@@ -99,15 +101,15 @@ export var DragDrop = (function () {
 	//This function adds all event listeners pertinent to Drag Drop
 	//Associates functions above as actions to perform upon events
 	function addEventListeners() {
-		// if (!Modernizr.draganddrop) {
-		// 	console.log("Browser does not support Drag and Drop");
-		// 	return;
-		// }
-
 		document.addEventListener("dragenter", stopDefault, false);
 		document.addEventListener("dragexit", stopDefault, false);
 		document.addEventListener("dragover", stopDefault, false);
 		document.addEventListener("drop", drop, false);
+
+		const imageFileInput = document.getElementById('image-file-input');
+
+		imageFileInput.addEventListener('change', () => handleFiles(imageFileInput.files));
+		document.addEventListener('click', () => imageFileInput.click());
 	}
 
 	/*
