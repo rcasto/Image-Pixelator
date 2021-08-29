@@ -116,9 +116,8 @@ Pixelator.game = (function () {
         //Used to display program statistics
         stats,
         SPREAD = 1,
-        CANVAS_WIDTH = 600,
-        CANVAS_HEIGHT = 600,
-        MAX_RADIUS = 20;
+        CANVAS_WIDTH = 800,
+        CANVAS_HEIGHT = 800;
     var loader = new THREE.TextureLoader();
 
     //checks window size and adjusts canvas size appropriately
@@ -139,7 +138,6 @@ Pixelator.game = (function () {
         loader.load(
             // resource URL
             DropImage,
-            // 'images/dropImage.png',
             // Function when resource is loaded
             function (texture) {
                 var material = new THREE.MeshBasicMaterial({
@@ -170,7 +168,7 @@ Pixelator.game = (function () {
         //     numParticles = particleList.length, i, p;
 
         //rotate entire particle system
-        particles.rotation.y += 0.01;
+        particles.rotation.y += 0.002;
 
         //circular motion
         //radius * Math.sin(time / ratio)
@@ -192,7 +190,7 @@ Pixelator.game = (function () {
     }
 
     // the animation loop
-    function animate(canvas) {
+    function animate() {
         //Request next animation
         window.requestAnimationFrame(animate);
 
@@ -327,7 +325,6 @@ Pixelator.game = (function () {
         loader.load(
             // resource URL
             BallImage,
-            // 'images/ball.png',
             // Function when resource is loaded
             function (texture) {
                 // do something with the texture
